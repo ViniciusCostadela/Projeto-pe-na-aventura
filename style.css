@@ -9,7 +9,7 @@
 
 body {
     /* Alterado para um laranja bem suave conforme pedido */
-    background-color: #f5efed; 
+    background-color: #f5efed;
     color: #1a1c1d;
 }
 
@@ -42,7 +42,7 @@ nav {
 .nome-empresa-centro h1 {
     font-family: 'Amatic SC', cursive;
     font-size: 3rem;
-    color: #ff5722; 
+    color: #ff5722;
     margin: 0;
     font-weight: 700;
     letter-spacing: 1px;
@@ -63,7 +63,7 @@ nav {
 }
 
 .links ul li a:hover {
-    color: #ff5722; 
+    color: #ff5722;
 }
 
 /* --- TEXTO DE APRESENTAÇÃO --- */
@@ -96,7 +96,7 @@ mark {
 }
 
 /* --- GALERIA AUTOMÁTICA --- */
-.slider-container {     
+.slider-container {
     padding: 20px 0;
     margin: 20px 0;
     width: 100%;
@@ -109,6 +109,7 @@ mark {
     margin-bottom: 40px;
     text-transform: uppercase;
 }
+
 .slider-wrapper {
     overflow: hidden;
     width: 100%;
@@ -119,7 +120,7 @@ mark {
 .slider-galeria-content {
     display: flex;
     gap: 20px;
-    width: calc((250px * 8) + (20px * 7)); 
+    width: calc((250px * 8) + (20px * 7));
     animation: scroll 25s linear infinite;
 }
 
@@ -132,15 +133,21 @@ mark {
     height: 250px;
     object-fit: cover;
     border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 10px)); }
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-50% - 10px));
+    }
 }
+
 .destinos-container h2 {
-   text-align: center;
+    text-align: center;
     color: #1a1c1d;
     font-size: 2rem;
     margin-bottom: 40px;
@@ -160,22 +167,23 @@ mark {
 /* O Card em si */
 .destino-card {
     background-color: #fff;
-    border-radius: 15px; 
-    overflow: hidden; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
     text-align: center;
     transition: transform 0.3s ease;
 }
 
 .destino-card:hover {
-    transform: translateY(-5px); 
+    transform: translateY(-5px);
 }
 
 /* Imagem do topo do card */
 .destino-card img {
     width: 100%;
     height: 200px;
-    object-fit: cover; 
+    object-fit: cover;
 }
 
 /* Espaçamento interno do texto */
@@ -199,7 +207,7 @@ mark {
 /* Botão Laranja */
 .btn-saiba-mais {
     display: inline-block;
-    background-color: #FF5722; 
+    background-color: #FF5722;
     color: white;
     padding: 10px 25px;
     text-decoration: none;
@@ -212,15 +220,16 @@ mark {
 .btn-saiba-mais:hover {
     background-color: #e64a19;
 }
+
 /* --- NAVEGAÇÃO DE RODAPÉ (REDES SOCIAIS) --- */
 .fundossite {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 5%; 
-    background-color: #ffffff; 
-    border-top: 1px solid #eee; 
-    min-height: 91px; 
+    padding: 10px 5%;
+    background-color: #ffffff;
+    border-top: 1px solid #eee;
+    min-height: 91px;
     margin-top: 40px;
 }
 
@@ -231,14 +240,25 @@ mark {
 }
 
 .redes-sociais a {
-    font-size: 24px; 
-    color: #ff5722; 
+    font-size: 24px;
+    color: #ff5722;
     text-decoration: none;
     transition: 0.3s;
 }
 
 .redes-sociais a:hover {
-    color: #25d366; 
+    color: #25d366;
+    transform: scale(1.2);
+}
+
+.redes-sociais-grande i {
+    font-size: 1.8rem;
+    color: #1a1c1d;
+    transition: all 0.3s ease;
+}
+
+.redes-sociais-grande i:hover {
+    color: #ff5722;
     transform: scale(1.2);
 }
 
@@ -251,19 +271,22 @@ mark {
         text-align: center;
     }
 }
+
 @media (max-width: 768px) {
     header {
-        flex-direction: column; 
+        flex-direction: column;
         text-align: center;
         padding: 10px;
     }
+
     /* Ajustes de Texto */
     body {
-        padding: 0 15px; 
+        padding: 0 15px;
     }
 
-    h1, h2 {
-        font-size: 1.5rem; 
+    h1,
+    h2 {
+        font-size: 1.5rem;
     }
 
     p {
@@ -274,13 +297,113 @@ mark {
     /* Galeria de Fotos */
     .galeria {
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
         align-items: center;
     }
 
     .galeria img {
-        width: 100%; 
+        width: 100%;
         max-width: 400px;
         margin-bottom: 20px;
     }
+}
+
+/* --- SAIBA MAIS / PÁGINA DE CONTEÚDO --- */
+.page-section {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 30px 20px;
+}
+
+.page-section .info-card {
+    background-color: #fff;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 87, 34, 0.12);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.page-section h2 {
+    font-family: 'Amatic SC', cursive;
+    font-size: 2.5rem;
+    color: #ff5722;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.page-section h3 {
+    font-size: 1.6rem;
+    color: #1a1c1d;
+    margin-bottom: 18px;
+}
+
+.page-section .info-list {
+    list-style: decimal inside;
+    margin-left: 0;
+    color: #444;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+.page-section .info-list li {
+    margin-bottom: 16px;
+}
+
+.page-section .info-list li::marker {
+    color: #ff5722;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.page-section .info-block .info-list {
+    list-style: disc inside;
+}
+
+.page-section .info-block .info-list li::marker {
+    color: #ff5722;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.page-section .info-list strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+.page-section p {
+    margin-top: 10px;
+    color: #4d4d4d;
+    line-height: 1.8;
+}
+
+.page-section .info-block {
+    background-color: #fdf7f4;
+    padding: 22px;
+    border-radius: 18px;
+}
+
+.page-section .info-block p {
+    margin-top: 24px;
+}
+
+.page-section .redes-sociais-grande {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.page-section .redes-sociais-grande a {
+    color: #ff5722;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.page-section .redes-sociais-grande a:hover {
+    color: #e64a19;
 }
