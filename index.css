@@ -1,0 +1,135 @@
+/* --- ESTILO ESPECÍFICO DA PÁGINA INICIAL --- */
+
+.text {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 60px 20px 40px 20px;
+}
+
+.text h1 {
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+    font-family: 'Amatic SC', cursive;
+    color: #ff5722;
+}
+
+.text h3 {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #ff5722;
+    font-family: 'Inter', sans-serif;
+}
+
+mark {
+    background-color: #850909;
+    color: white;
+    padding: 0 5px;
+    border-radius: 3px;
+}
+
+.slider-container {
+    padding: 20px 0;
+    margin: 20px 0;
+    width: 100%;
+}
+
+.slider-container h1 {
+    text-align: center;
+    color: #1a1c1d;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.slider-galeria-content {
+    display: flex;
+    gap: 20px;
+    width: calc((250px * 8) + (20px * 7));
+    animation: scroll 25s linear infinite;
+}
+
+.slider-galeria-content:hover {
+    animation-play-state: paused;
+}
+
+.slide1 img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-50% - 10px));
+    }
+}
+
+.destinos-container {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 20px;
+}
+
+.destinos-container h2 {
+    text-align: center;
+    color: #1a1c1d;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.destinos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.destino-card {
+    background-color: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.destino-card:hover {
+    transform: translateY(-5px);
+}
+
+.destino-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.card-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card-content p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}

@@ -1,168 +1,58 @@
-/* proximosdestinos.css */
+/* --- ESTILO ESPECÍFICO DA PÁGINA PRÓXIMOS DESTINOS --- */
 
-.secao-destinos {
-    background-color: #f5efed;
-    padding: 60px 20px;
-    text-align: center;
-}
-
-.titulo-principal {
-    font-family: 'Amatic SC', cursive;
-    font-size: 3.5rem;
-    color: #1a1c1d;
-    margin-bottom: 50px;
-}
-
-/* Grid Centralizada */
-.grid-destinos {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
+.destinos-container {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 60px auto 80px;
+    padding: 0 20px;
 }
 
-/* Card com Movimento */
-.card-destino {
-    background: white;
-    width: 280px;
-    border-radius: 15px;
+.titulo-secao {
+    font-family: 'Amatic SC', cursive;
+    font-size: 3rem;
+    color: #1a1c1d;
+    text-align: center;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.destinos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.destino-card {
+    background-color: #fff;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
-.card-destino:hover {
-    transform: translateY(-10px);
+.destino-card:hover {
+    transform: translateY(-6px);
 }
 
-/* Container da Imagem + Overlay (Igual à Home) */
-.img-container {
-    position: relative;
+.destino-card img {
     width: 100%;
     height: 200px;
-    overflow: hidden;
-}
-
-.img-container img {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
 }
 
-/* Interação de Hover */
-.card-destino:hover .img-container img {
-    transform: scale(1.1);
-}
-
-.card-destino:hover .overlay {
-    opacity: 1;
-}
-
-/* Info do Card */
-.info-container {
+.card-content {
     padding: 20px;
+    text-align: center;
 }
 
-.info-container h2 {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
+.card-content h3 {
+    font-size: 1.2rem;
     margin-bottom: 10px;
-    color: #1a1c1d;
+    color: #333;
 }
 
-.info-container p {
-    font-size: 0.85rem;
+.card-content p {
+    font-size: 0.95rem;
     color: #666;
     margin-bottom: 20px;
-    height: 40px;
-}
-
-.btn-saiba-mais {
-    background: #ff5722;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 0.75rem;
-    transition: background 0.3s;
-}
-
-.btn-saiba-mais:hover {
-    background: #e64a19;
-}
-/* RODAPÉ ESTRUTURA FIXA */
-.fundossite {
-    background-color: #fff;
-    border-top: 1px solid #eee;
-    height: 80px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 40px;
-    overflow: hidden; 
-}
-
-.container-rodape {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 1240px; 
-}
-
-.rodape-esq {
-    display: flex;
-    align-items: center;
-    gap: 20px; 
-}
-
-/* LETRA MAIOR */
-.txt-rodape-grande {
-    font-family: 'Inter', sans-serif;
-    font-weight: 800; 
-    font-size: 0.9rem; 
-    color: #1a1c1d;
-    letter-spacing: 0.5px;
-}
-
-/* ÍCONES MAIORES */
-.redes-sociais-grande {
-    display: flex;
-    gap: 15px;
-}
-
-.redes-sociais-grande i {
-    font-size: 1.8rem; 
-    color: #1a1c1d;
-    transition: all 0.3s ease;
-}
-
-.redes-sociais-grande i:hover {
-    color: #ff5722;
-    transform: scale(1.2); 
-}
-
-/* BOTÃO (Mantendo o tamanho que já estava bom) */
-.btn-ebook-destaque {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background-color: #1a1c1d;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    transition: all 0.3s ease;
-}
-
-.btn-ebook-destaque:hover {
-    background-color: #ff5722;
-    transform: translateY(-2px);
+    line-height: 1.5;
 }
