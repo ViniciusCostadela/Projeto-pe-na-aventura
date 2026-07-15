@@ -116,6 +116,8 @@ mark {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .destino-card:hover {
@@ -352,6 +354,9 @@ mark {
 
 .card-content {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .card-content h3 {
@@ -365,6 +370,12 @@ mark {
     color: #666;
     margin-bottom: 20px;
     line-height: 1.4;
+    flex: 1;
+}
+
+.card-content a {
+    align-self: center;
+    margin-top: auto;
 }
 
 @media (max-width: 768px) {
