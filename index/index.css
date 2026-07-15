@@ -130,6 +130,25 @@ mark {
     padding: 0 20px;
 }
 
+.dashboard-section,
+.admin-section,
+.access-section {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+}
+
+.contato-card,
+.dashboard-card,
+.admin-card,
+.access-card {
+    background: linear-gradient(135deg, #fff7f2, #ffffff);
+    border: 1px solid rgba(255, 87, 34, 0.15);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
+}
+
 .contato-card {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
@@ -141,14 +160,16 @@ mark {
     box-shadow: 0 16px 35px rgba(0, 0, 0, 0.08);
 }
 
-.contato-texto h2 {
+.contato-texto h2,
+.dashboard-header h3 {
     color: #ff5722;
     font-family: 'Amatic SC', cursive;
     font-size: 2.2rem;
     margin-bottom: 12px;
 }
 
-.contato-texto p {
+.contato-texto p,
+.dashboard-card p {
     color: #4d4d4d;
     line-height: 1.7;
 }
@@ -185,6 +206,119 @@ mark {
     min-height: 24px;
     color: #2e7d32;
     font-weight: 600;
+}
+
+.dashboard-header,
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.dashboard-badge {
+    background-color: #ff5722;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.stat-box {
+    background: white;
+    border: 1px solid #f2dfd3;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.stat-box strong {
+    display: block;
+    font-size: 1.3rem;
+    color: #1a1c1d;
+}
+
+.stat-box span {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.dashboard-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+}
+
+.dashboard-list li {
+    background: #fff;
+    border: 1px solid #f2dfd3;
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: #444;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 20px;
+}
+
+.admin-form,
+.admin-panel {
+    background: white;
+    border: 1px solid #f2dfd3;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.admin-form h4,
+.admin-panel h4,
+.access-card h3 {
+    color: #1a1c1d;
+    margin-bottom: 12px;
+}
+
+.admin-form input,
+.admin-form textarea,
+.access-form input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.access-card {
+    text-align: center;
+}
+
+.access-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-panel-full {
+    margin-top: 20px;
+}
+
+.dashboard-list button {
+    margin-top: 8px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
 }
 
 .scroll-top {
@@ -235,6 +369,17 @@ mark {
 
 @media (max-width: 768px) {
     .contato-card {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header,
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .dashboard-stats,
+    .admin-grid {
         grid-template-columns: 1fr;
     }
 }

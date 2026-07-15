@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Pé na Aventura</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Inter:wght@400;600;700&family=Montserrat:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
+
+    <link rel="icon" href="../materiausadonoprojeto/logopenaaventura.png" type="image/png">
+</head>
+
+<body data-page="admin">
+    <nav>
+        <div class="logo">
+            <img src="../materiausadonoprojeto/logopenaaventura.png" alt="logo-pé-na-aventura">
+        </div>
+
+        <div class="nome-empresa-centro">
+            <h1>Pé na Aventura</h1>
+        </div>
+
+        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="links">
+            <ul>
+                <li><a href="home.html">INÍCIO</a></li>
+                <li><a href="admin.html">ADMIN</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="access-section reveal" id="admin-login-section">
+        <div class="access-card">
+            <h3>Acesso administrativo</h3>
+            <p>Entre com usuário e senha para visualizar clientes, contatos e destinos.</p>
+            <form class="access-form" id="access-form">
+                <input type="text" id="admin-user" placeholder="Usuário" required>
+                <input type="password" id="admin-password" placeholder="Senha" required>
+                <button type="submit" class="btn-saiba-mais btn-form">ENTRAR</button>
+                <div class="form-feedback" id="access-feedback" aria-live="polite"></div>
+            </form>
+        </div>
+    </section>
+
+    <section class="dashboard-section reveal" id="admin-dashboard" hidden>
+        <div class="dashboard-card">
+            <div class="dashboard-header">
+                <div>
+                    <h3>Painel administrativo</h3>
+                    <p id="admin-user-label">Logado como administrador</p>
+                </div>
+                <div class="dashboard-actions">
+                    <button type="button" class="btn-saiba-mais btn-form" id="exportar-btn">EXPORTAR DADOS</button>
+                    <button type="button" class="btn-saiba-mais btn-form" id="logout-btn">SAIR</button>
+                </div>
+            </div>
+
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <strong id="db-total">0</strong>
+                    <span>Contatos recebidos</span>
+                </div>
+                <div class="stat-box">
+                    <strong id="db-destinos">0</strong>
+                    <span>Destinos cadastrados</span>
+                </div>
+            </div>
+
+            <div class="admin-grid">
+                <div class="admin-panel">
+                    <h4>Contatos recebidos</h4>
+                    <ul class="dashboard-list" id="db-list">
+                        <li>Nenhuma mensagem ainda.</li>
+                    </ul>
+                </div>
+
+                <div class="admin-panel">
+                    <form class="admin-form" id="destino-form">
+                        <h4>Gerenciar destinos</h4>
+                        <input type="hidden" name="id" id="destino-id">
+                        <input type="text" name="titulo" id="destino-titulo" placeholder="Nome do destino" required>
+                        <input type="text" name="local" id="destino-local" placeholder="Local / região" required>
+                        <textarea name="descricao" id="destino-descricao" rows="3" placeholder="Descrição do roteiro"
+                            required></textarea>
+                        <input type="text" name="link" id="destino-link" placeholder="Link da página de destino">
+                        <button type="submit" class="btn-saiba-mais btn-form">SALVAR DESTINO</button>
+                        <button type="button" class="btn-saiba-mais btn-form" id="cancel-edit">CANCELAR</button>
+                        <div class="form-feedback" id="destino-feedback" aria-live="polite"></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="admin-panel admin-panel-full">
+                <h4>Destinos cadastrados</h4>
+                <ul class="dashboard-list" id="destinos-list">
+                    <li>Nenhum destino cadastrado ainda.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <button class="scroll-top" aria-label="Voltar ao topo">↑</button>
+
+    <footer class="fundossite">
+        <div class="container-rodape">
+            <div class="rodape-esq">
+                <span class="txt-rodape-grande">ENTRE EM CONTATO OU VISITE NOSSAS REDES:</span>
+                <div class="redes-sociais-grande">
+                    <a href="https://api.whatsapp.com/send?phone=553298514349" target="_blank"><i
+                            class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/penaaventurajf" target="_blank"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
