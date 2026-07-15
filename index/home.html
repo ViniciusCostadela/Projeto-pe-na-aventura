@@ -31,6 +31,12 @@
             <h1>Pé na Aventura</h1>
         </div>
 
+        <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
         <div class="links">
             <ul>
                 <li><a href="home.html">INÍCIO</a></li>
@@ -42,7 +48,7 @@
         </div>
     </nav>
 
-    <div class="text">
+    <div class="text reveal">
         <h1>Transformando sonhos de viagem em realidade!</h1>
         <h3>O Pé na Aventura veio para provar que você pode, sim, viajar sem pagar uma <mark>fortuna!</mark> E o melhor:
             com muita qualidade! <br> A gente eleva o padrão de viagem porque sabemos que você merece o melhor. Seja no
@@ -50,7 +56,7 @@
             realidade.<br>E aí, já decidiu qual vai ser a próxima aventura da sua vida?</h3>
     </div>
 
-    <div class="slider-container">
+    <div class="slider-container reveal">
         <div class="slider-galeria">
             <h1>GALERIA DE FOTOS</h1>
             <div class="slider-wrapper">
@@ -72,7 +78,7 @@
         <h2>ESCOLHA SEU PRÓXIMO DESTINO</h2>
 
         <div class="destinos-grid">
-            <div class="destino-card">
+            <div class="destino-card reveal">
                 <img src="../materiausadonoprojeto/proximodestino1.avif" alt="Expedição Seridó">
                 <div class="card-content">
                     <h3>EXPEDIÇÃO SERIDÓ</h3>
@@ -81,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="destino-card">
+            <div class="destino-card reveal">
                 <img src="../materiausadonoprojeto/proximodestino2.avif" alt="Travessia Marins">
                 <div class="card-content">
                     <h3>TRAVESSIA MARINS</h3>
@@ -91,7 +97,7 @@
                 </div>
             </div>
 
-            <div class="destino-card">
+            <div class="destino-card reveal">
                 <img src="../materiausadonoprojeto/proximodestino3.avif" alt="Chapada Diamantina">
                 <div class="card-content">
                     <h3>CHAPADA DIAMANTINA</h3>
@@ -100,7 +106,7 @@
                 </div>
             </div>
 
-            <div class="destino-card">
+            <div class="destino-card reveal">
                 <img src="../materiausadonoprojeto/proximodestino4.avif" alt="Rota das Emoções">
                 <div class="card-content">
                     <h3>ROTA DAS EMOÇÕES</h3>
@@ -111,6 +117,28 @@
             </div>
         </div>
     </section>
+
+    <section class="contato-section reveal">
+        <div class="contato-card">
+            <div class="contato-texto">
+                <h2>FAÇA PARTE DA PRÓXIMA AVENTURA</h2>
+                <p>Quer receber dicas exclusivas, novidades de destinos e oportunidades especiais?</p>
+            </div>
+
+            <form class="contato-form" id="contato-form">
+                <input type="text" name="nome" placeholder="Seu nome" required>
+                <input type="email" name="email" placeholder="Seu e-mail" required>
+                <input type="text" name="telefone" placeholder="WhatsApp" required>
+                <textarea name="mensagem" rows="4" placeholder="Conte um pouco sobre sua viagem dos sonhos"
+                    required></textarea>
+                <button type="submit" class="btn-saiba-mais btn-form">ENVIAR</button>
+                <div class="form-feedback" id="form-feedback" aria-live="polite"></div>
+            </form>
+        </div>
+    </section>
+
+    <button class="scroll-top" aria-label="Voltar ao topo">↑</button>
+
     <footer class="fundossite">
         <div class="container-rodape">
             <div class="rodape-esq">
@@ -130,6 +158,8 @@
             </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
