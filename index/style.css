@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Inter:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    /* Alterado para um laranja bem suave conforme pedido */
+    background-color: #f5efed;
+    color: #1a1c1d;
+}
+
+/* --- NAVEGAÇÃO --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    gap: 16px;
+}
+
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background-color: #1a1c1d;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.logo img {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Estilo para o Nome da Empresa Centralizado */
+.nome-empresa-centro {
+    flex: 1;
+    text-align: center;
+}
+
+.nome-empresa-centro h1 {
+    font-family: 'Amatic SC', cursive;
+    font-size: 3rem;
+    color: #ff5722;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.links ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.links ul li a {
+    text-decoration: none;
+    color: #1a1c1d;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+}
+
+.links ul li a:hover {
+    color: #ff5722;
+}
+
+/* --- BOTÃO PADRÃO --- */
+.btn-saiba-mais {
+    display: inline-block;
+    background-color: #FF5722;
+    color: white;
+    padding: 10px 25px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    box-shadow: 0 8px 20px rgba(255, 87, 34, 0.18);
+}
+
+.btn-saiba-mais:hover {
+    background-color: #e64a19;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(255, 87, 34, 0.28);
+}
+
+/* --- RODAPÉ COMPARTILHADO --- */
+.fundossite {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    background-color: #ffffff;
+    border-top: 1px solid #eee;
+    min-height: 91px;
+    margin-top: 40px;
+}
+
+.container-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+.rodape-esq {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.rodape-dir {
+    display: flex;
+    align-items: center;
+}
+
+.txt-rodape-grande {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #1a1c1d;
+    letter-spacing: 0.5px;
+}
+
+.redes-sociais-grande {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.redes-sociais-grande i {
+    font-size: 1.8rem;
+    color: #1a1c1d;
+    transition: all 0.3s ease;
+}
+
+.redes-sociais-grande i:hover {
+    color: #ff5722;
+    transform: scale(1.2);
+}
+
+.btn-ebook-destaque {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #1a1c1d;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.btn-ebook-destaque:hover {
+    background-color: #ff5722;
+    transform: translateY(-2px);
+}
+
+/* Responsividade simples para telas pequenas */
+@media (max-width: 600px) {
+    .fundossite {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px 5%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 900px) {
+    .menu-toggle {
+        display: flex;
+    }
+
+    .links {
+        display: none;
+        width: 100%;
+    }
+
+    .links.active {
+        display: block;
+    }
+
+    .links ul {
+        flex-direction: column;
+        align-items: center;
+        background-color: #fff;
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .links ul li {
+        width: 100%;
+        text-align: center;
+        padding: 8px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    /* Ajustes de Texto */
+    body {
+        padding: 0 15px;
+    }
+
+    h1,
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    /* Galeria de Fotos */
+    .galeria {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .galeria img {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 20px;
+    }
+}
+
+/* --- SAIBA MAIS / PÁGINA DE CONTEÚDO --- */
+.page-section {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 30px 20px;
+}
+
+.page-section .info-card {
+    background-color: #fff;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 87, 34, 0.12);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.page-section h2 {
+    font-family: 'Amatic SC', cursive;
+    font-size: 2.5rem;
+    color: #ff5722;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.page-section h3 {
+    font-size: 1.6rem;
+    color: #1a1c1d;
+    margin-bottom: 18px;
+}
+
+.page-section .info-list {
+    list-style: decimal inside;
+    margin-left: 0;
+    color: #444;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+.page-section .info-list li {
+    margin-bottom: 16px;
+}
+
+.page-section .info-list li::marker {
+    color: #ff5722;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.page-section .info-block .info-list {
+    list-style: disc inside;
+}
+
+.page-section .info-block .info-list li::marker {
+    color: #ff5722;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.page-section .info-list strong {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+.page-section p {
+    margin-top: 10px;
+    color: #4d4d4d;
+    line-height: 1.8;
+}
+
+.page-section .info-block {
+    background-color: #fdf7f4;
+    padding: 22px;
+    border-radius: 18px;
+}
+
+.page-section .info-block p {
+    margin-top: 24px;
+}
+
+.page-section .redes-sociais-grande {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.page-section .redes-sociais-grande a {
+    color: #ff5722;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.page-section .redes-sociais-grande a:hover {
+    color: #e64a19;
+}
