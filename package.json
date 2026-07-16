@@ -1,0 +1,24 @@
+{
+  "name": "projeto-pe-na-aventura",
+  "version": "1.0.0",
+  "description": "🏔️ Pé na Aventura - Agência de Viagens Projeto de um site completo para uma agência de ecoturismo e expedições, desenvolvido como parte do meu aprendizado prático em Desenvolvimento Web.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViniciusCostadela/Projeto-pe-na-aventura.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ViniciusCostadela/Projeto-pe-na-aventura/issues"
+  },
+  "homepage": "https://github.com/ViniciusCostadela/Projeto-pe-na-aventura#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
