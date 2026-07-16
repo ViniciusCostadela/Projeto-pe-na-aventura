@@ -1,11 +1,11 @@
 const express = require("express");
 
+const path = require("path");
 const app = express();
+const projectRoot = path.join(__dirname, "..");
 
-app.get("/", (req, res) => {
-  res.json({ message: "API funcionando" });
-});
+app.use(express.static(projectRoot));
 
 app.listen(3000, () => {
-  console.log("Servidor rodando na porta 3000");
+  console.log("Site rodando em http://localhost:3000");
 });
