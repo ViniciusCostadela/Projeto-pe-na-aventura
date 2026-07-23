@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Inter:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    /* Alterado para um laranja bem suave conforme pedido */
+    background-color: #f5efed;
+    color: #1a1c1d;
+}
+
+/* --- NAVEGAÇÃO --- */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    gap: 16px;
+}
+.logo img {
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Estilo para o Nome da Empresa Centralizado */
+.nome-empresa-centro {
+    flex: 1;
+    text-align: center;
+}
+
+.nome-empresa-centro h1 {
+    font-family: 'Amatic SC', cursive;
+    font-size: 3rem;
+    color: #ff5722;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.links ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.links ul li a {
+    text-decoration: none;
+    color: #1a1c1d;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+}
+
+.links ul li a:hover {
+    color: #ff5722;
+}
+
+.historia-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px; /* Espaço entre cada linha/bloco */
+}
+
+/* Estrutura principal da linha (Foto e Texto Lado a Lado) */
+.story-block {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente o texto com a imagem */
+  justify-content: space-between;
+  gap: 40px;
+}
+
+/* Inverte a ordem do bloco quando tiver a classe 'reverse' */
+.story-block.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Estilo da Imagem/Arte */
+.block-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.block-image img {
+  width: 100%;
+  max-width: 380px; /* Ajuste o tamanho da foto aqui */
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  display: block;
+}
+
+/* Estilo do Texto ao Lado */
+.block-text {
+  flex: 1;
+  padding: 20px;
+}
+
+.block-text p {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #d96b27; /* Laranja/terracota da marca */
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center; /* Se preferir alinhado à esquerda, mude para left */
+}
+
+/* Responsividade para Celulares (Empilha foto e texto no mobile) */
+@media (max-width: 768px) {
+  .story-block, 
+  .story-block.reverse {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .block-text p {
+    font-size: 1.1rem;
+  }
+}
