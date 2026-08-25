@@ -21,3 +21,18 @@ Próximos Destinos: Catálogo de viagens com efeito de overlay e zoom dinâmico 
 Navegação Completa: Menu funcional interligando todas as seções.
 
 👨‍💻 Autor Vinícius Costadela Estudante de Desenvolvimento Web | Profissional de Vendas & Marketing
+
+## Executar localmente
+
+Requisitos: Node.js 22.5 ou superior.
+
+Configure as credenciais administrativas no PowerShell antes de iniciar:
+
+```powershell
+$env:ADMIN_EMAIL = "admin@exemplo.com"
+$env:ADMIN_PASSWORD = "use-uma-senha-forte-com-mais-de-8-caracteres"
+$env:ADMIN_NAME = "Administrador"
+npm start
+```
+
+Abra `http://localhost:3000`. O banco SQLite é criado automaticamente em `data/pena-aventura.db`. Não publique esse arquivo nem as variáveis de ambiente. Em produção, use HTTPS e defina `NODE_ENV=production`.

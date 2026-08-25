@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
     const menuToggle = document.querySelector('.menu-toggle');
     const links = document.querySelector('.links');
     const scrollTopButton = document.querySelector('.scroll-top');
@@ -10,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const dbUltima = document.getElementById('db-ultima');
     const dbList = document.getElementById('db-list');
     const dbDestinos = document.getElementById('db-destinos');
+    const dbReservas = document.getElementById('db-reservas');
+    const reservasList = document.getElementById('reservas-list');
     const destinoForm = document.getElementById('destino-form');
     const destinoFeedback = document.getElementById('destino-feedback');
     const destinosList = document.getElementById('destinos-list');
@@ -26,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const destinoLocalInput = document.getElementById('destino-local');
     const destinoDescricaoInput = document.getElementById('destino-descricao');
     const destinoLinkInput = document.getElementById('destino-link');
+    const destinoVagasInput = document.getElementById('destino-vagas');
+    const usersList = document.getElementById('users-list');
     const isAdminPage = document.body.getAttribute('data-page') === 'admin';
     const DB_NAME = 'peNaAventuraDB';
-    const ADMIN_USER = 'admin';
-    const ADMIN_PASSWORD = 'penaaventura2026';
     const STORE_CONTACTS = 'contatos';
     const STORE_DESTINOS = 'destinos';
 
@@ -180,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             dbList.innerHTML = items.slice(0, 10).map((item) => {
-                return `<li><strong>${item.nome}</strong><br>${item.email} • ${item.telefone}<br>${item.mensagem}</li>`;
+                return `<li><strong>${escapeHtml(item.name)}</strong><br>${escapeHtml(item.email)} • ${escapeHtml(item.phone)}<br>${escapeHtml(item.message)}<br><button data-contact-id="${escapeHtml(item.id)}" data-action="delete-contact">EXCLUIR CONTATO</button></li>`;
             }).join('');
         }
     };
@@ -194,17 +197,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             destinosList.innerHTML = items.map((item) => {
                 return `<li>
-                    <strong>${item.titulo}</strong><br>${item.local}<br>${item.descricao}<br>
-                    <button data-action="edit" data-id="${item.id}">EDITAR</button>
-                    <button data-action="delete" data-id="${item.id}">EXCLUIR</button>
+                    <strong>${escapeHtml(item.title)}</strong><br>${escapeHtml(item.location)}<br>${escapeHtml(item.description)}<br><strong>Vagas disponíveis: ${escapeHtml(item.vacancies)}</strong><br>
+                    <button data-action="edit" data-id="${escapeHtml(item.id)}">EDITAR</button>
+                    <button data-action="delete" data-id="${escapeHtml(item.id)}">EXCLUIR</button>
                 </li>`;
             }).join('');
         }
     };
 
     const loadDashboardData = async () => {
-        const contatos = await loadFromDatabase(STORE_CONTACTS);
-        const destinos = await loadFromDatabase(STORE_DESTINOS);
+        const contatos = await getServerContacts();
+        const destinos = await getServerDestinations();
         renderDashboard(contatos);
         renderDestinos(destinos);
         if (dbTotal) dbTotal.textContent = contatos.length;
@@ -227,6 +230,45 @@ document.addEventListener('DOMContentLoaded', () => {
         if (destinoLocalInput) destinoLocalInput.value = '';
         if (destinoDescricaoInput) destinoDescricaoInput.value = '';
         if (destinoLinkInput) destinoLinkInput.value = '';
+        if (destinoVagasInput) destinoVagasInput.value = '';
+    };
+
+    const adminRequest = async (url, options = {}) => {
+        const response = await fetch(url, options);
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || 'Não foi possível concluir a operação.');
+        return result;
+    };
+
+    const getServerDestinations = async () => (await adminRequest('/api/destinations')).destinations || [];
+    const getServerContacts = async () => (await adminRequest('/api/admin/contacts')).contacts || [];
+
+    const loadReservations = async () => {
+        if (!reservasList) return;
+        try {
+            const result = await adminRequest('/api/admin/reservations');
+            if (dbReservas) dbReservas.textContent = result.reservations.length;
+            reservasList.innerHTML = result.reservations.map((reservation) => `<li><strong>${escapeHtml(reservation.destinationTitle)}</strong><br>${escapeHtml(reservation.fullName)} • ${escapeHtml(reservation.email)}<br>${escapeHtml(reservation.phone)} • ${escapeHtml(formatDate(reservation.createdAt))}<br><button data-reservation-id="${escapeHtml(reservation.id)}" data-action="delete-reservation">CANCELAR RESERVA</button></li>`).join('') || '<li>Nenhuma reserva confirmada.</li>';
+        } catch (error) {
+            reservasList.innerHTML = '<li>Não foi possível carregar as reservas.</li>';
+        }
+    };
+
+    const getCurrentUser = async () => {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) return null;
+        return (await response.json()).user;
+    };
+
+    const loadUsers = async () => {
+        if (!usersList) return;
+        const response = await fetch('/api/admin/users');
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) {
+            usersList.innerHTML = '<li>Não foi possível carregar os usuários.</li>';
+            return;
+        }
+        usersList.innerHTML = result.users.map((user) => `<li><strong>${escapeHtml(user.name)}</strong><br>${escapeHtml(user.email)} • ${user.role === 'admin' ? 'Administrador' : 'Usuário'}${user.role === 'user' ? `<br><button data-user-id="${escapeHtml(user.id)}" data-action="delete-user">EXCLUIR CADASTRO</button>` : ''}</li>`).join('') || '<li>Nenhum usuário cadastrado.</li>';
     };
 
     if (menuToggle && links) {
@@ -271,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                await saveToDatabase(STORE_CONTACTS, payload);
+                await adminRequest('/api/contacts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: payload.nome, email: payload.email, phone: payload.telefone, message: payload.mensagem }) });
                 feedback.textContent = 'Mensagem enviada e salva com sucesso!';
                 contatoForm.reset();
             } catch (error) {
@@ -287,13 +329,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const user = document.getElementById('admin-user').value;
             const password = document.getElementById('admin-password').value;
 
-            if (user === ADMIN_USER && password === ADMIN_PASSWORD) {
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: user, password })
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(result.error || 'Não foi possível entrar.');
+                if (result.user.role !== 'admin') {
+                    await fetch('/api/auth/logout', { method: 'POST' });
+                    throw new Error('Esta conta não possui permissão de administrador.');
+                }
                 toggleAdminAccess(true);
-                if (adminUserLabel) adminUserLabel.textContent = `Logado como ${user}`;
+                if (adminUserLabel) adminUserLabel.textContent = `Logado como ${result.user.name}`;
                 accessFeedback.textContent = 'Acesso liberado.';
                 await loadDashboardData();
-            } else {
-                accessFeedback.textContent = 'Usuário ou senha incorretos.';
+                await loadUsers();
+                await loadReservations();
+            } catch (error) {
+                accessFeedback.textContent = error.message;
             }
         });
     }
@@ -306,9 +361,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 if (payload.id) {
-                    await updateDestino(payload.id, payload);
+                    await adminRequest(`/api/admin/destinations/${payload.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: payload.titulo, location: payload.local, description: payload.descricao, link: payload.link, vacancies: payload.vagas }) });
                 } else {
-                    await saveToDatabase(STORE_DESTINOS, payload);
+                    await adminRequest('/api/admin/destinations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: payload.titulo, location: payload.local, description: payload.descricao, link: payload.link, vacancies: payload.vagas }) });
                 }
 
                 destinoFeedback.textContent = 'Destino salvo com sucesso!';
@@ -330,19 +385,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const action = button.getAttribute('data-action');
 
             if (action === 'delete') {
-                await deleteDestino(id);
+                await adminRequest(`/api/admin/destinations/${id}`, { method: 'DELETE' });
                 await loadDashboardData();
             }
 
             if (action === 'edit') {
-                const destinos = await loadFromDatabase(STORE_DESTINOS);
+                const destinos = await getServerDestinations();
                 const item = destinos.find((entry) => String(entry.id) === String(id));
                 if (item) {
                     if (destinoIdInput) destinoIdInput.value = item.id;
-                    if (destinoTituloInput) destinoTituloInput.value = item.titulo || '';
-                    if (destinoLocalInput) destinoLocalInput.value = item.local || '';
-                    if (destinoDescricaoInput) destinoDescricaoInput.value = item.descricao || '';
+                    if (destinoTituloInput) destinoTituloInput.value = item.title || '';
+                    if (destinoLocalInput) destinoLocalInput.value = item.location || '';
+                    if (destinoDescricaoInput) destinoDescricaoInput.value = item.description || '';
                     if (destinoLinkInput) destinoLinkInput.value = item.link || '';
+                    if (destinoVagasInput) destinoVagasInput.value = item.vacancies ?? '';
                 }
             }
         });
@@ -352,11 +408,46 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelEditBtn.addEventListener('click', clearDestinoForm);
     }
 
+    if (usersList && isAdminPage) {
+        usersList.addEventListener('click', async (event) => {
+            const button = event.target.closest('[data-action="delete-user"]');
+            if (!button || !confirm('Excluir este cadastro de cliente? Esta ação não pode ser desfeita.')) return;
+            try {
+                await adminRequest(`/api/admin/users/${button.dataset.userId}`, { method: 'DELETE' });
+                await loadUsers();
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+    }
+
+    if (dbList && isAdminPage) {
+        dbList.addEventListener('click', async (event) => {
+            const button = event.target.closest('[data-action="delete-contact"]');
+            if (!button || !confirm('Excluir este contato?')) return;
+            try {
+                await adminRequest(`/api/admin/contacts/${button.dataset.contactId}`, { method: 'DELETE' });
+                await loadDashboardData();
+            } catch (error) { alert(error.message); }
+        });
+    }
+
+    if (reservasList && isAdminPage) {
+        reservasList.addEventListener('click', async (event) => {
+            const button = event.target.closest('[data-action="delete-reservation"]');
+            if (!button || !confirm('Cancelar esta reserva e devolver a vaga?')) return;
+            try {
+                await adminRequest(`/api/admin/reservations/${button.dataset.reservationId}`, { method: 'DELETE' });
+                await loadDashboardData();
+                await loadReservations();
+            } catch (error) { alert(error.message); }
+        });
+    }
+
     if (logoutBtn && isAdminPage) {
-        logoutBtn.addEventListener('click', () => {
-            toggleAdminAccess(false);
-            if (accessFeedback) accessFeedback.textContent = 'Sessão encerrada.';
-            clearDestinoForm();
+        logoutBtn.addEventListener('click', async () => {
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.replace('acesso.html');
         });
     }
 
@@ -375,8 +466,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (isAdminPage) {
-        toggleAdminAccess(false);
-        loadDashboardData();
+        (async () => {
+            const user = await getCurrentUser();
+            if (user?.role === 'admin') {
+                toggleAdminAccess(true);
+                if (adminUserLabel) adminUserLabel.textContent = `Logado como ${user.name}`;
+                await loadDashboardData();
+                await loadUsers();
+                await loadReservations();
+            } else {
+                if (user) await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.replace('acesso.html');
+            }
+        })();
     }
 
     if (contatoForm && feedback && !isAdminPage) {
@@ -387,7 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                await saveToDatabase(STORE_CONTACTS, payload);
+                await adminRequest('/api/contacts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: payload.nome, email: payload.email, phone: payload.telefone, message: payload.mensagem }) });
                 feedback.textContent = 'Mensagem enviada e salva com sucesso!';
                 contatoForm.reset();
             } catch (error) {

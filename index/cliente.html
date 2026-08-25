@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha área - Pé na Aventura</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="index.css">
+    <link rel="icon" href="../materiausadonoprojeto/logopenaaventura.png" type="image/png">
+</head>
+<body data-page="client">
+    <nav><div class="logo"><img src="../materiausadonoprojeto/logopenaaventura.png" alt="Logo Pé na Aventura"></div><div class="nome-empresa-centro"><h1>Pé na Aventura</h1></div><div class="links"><ul><li><a href="home.html">INÍCIO</a></li><li><a href="cliente.html">MINHA ÁREA</a></li><li><a href="acesso.html">ENTRAR / CADASTRAR</a></li></ul></div></nav>
+    <main class="access-section">
+        <section class="access-card client-card" id="client-area" hidden>
+            <h3>Olá, <span id="client-name"></span>!</h3>
+            <p>Esta é sua área exclusiva. Aqui você encontra os dados da sua conta e pode acompanhar as novidades da Pé na Aventura.</p>
+            <div class="client-details"><span><strong>E-mail:</strong> <span id="client-email"></span></span><span><strong>Conta criada em:</strong> <span id="client-created-at"></span></span></div>
+            <div class="booking-area">
+                <h4>Faça sua reserva</h4>
+                <p>Escolha o destino e informe seus dados. A vaga é descontada automaticamente após a confirmação.</p>
+                <form class="access-form" id="reservation-form">
+                    <label for="reservation-name">Nome completo</label><input id="reservation-name" name="fullName" type="text" required autocomplete="name">
+                    <label for="reservation-email">E-mail</label><input id="reservation-email" type="email" readonly>
+                    <label for="reservation-phone">Telefone / WhatsApp</label><input id="reservation-phone" name="phone" type="tel" required autocomplete="tel">
+                    <label for="reservation-destination">Destino</label><select id="reservation-destination" name="destinationId" required><option value="">Carregando destinos...</option></select>
+                    <button class="btn-saiba-mais btn-form" type="submit">CONFIRMAR RESERVA</button>
+                    <div class="form-feedback" id="reservation-feedback" aria-live="polite"></div>
+                </form>
+            </div>
+            <div class="booking-area">
+                <h4>Minhas reservas</h4>
+                <ul class="dashboard-list" id="my-reservations-list"><li>Carregando reservas...</li></ul>
+            </div>
+            <a class="btn-saiba-mais" href="home.html">VER DESTINOS</a><button class="btn-saiba-mais btn-form" type="button" id="client-logout">SAIR DA CONTA</button>
+        </section>
+    </main>
+    <script src="cliente.js"></script>
+</body>
+</html>

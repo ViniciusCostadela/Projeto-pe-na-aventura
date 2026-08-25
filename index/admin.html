@@ -38,23 +38,10 @@
         <div class="links">
             <ul>
                 <li><a href="home.html">INÍCIO</a></li>
-                <li><a href="admin.html">ADMIN</a></li>
+                <li><a href="acesso.html">ENTRAR / CADASTRAR</a></li>
             </ul>
         </div>
     </nav>
-
-    <section class="access-section reveal" id="admin-login-section">
-        <div class="access-card">
-            <h3>Acesso administrativo</h3>
-            <p>Entre com usuário e senha para visualizar clientes, contatos e destinos.</p>
-            <form class="access-form" id="access-form">
-                <input type="text" id="admin-user" placeholder="Usuário" required>
-                <input type="password" id="admin-password" placeholder="Senha" required>
-                <button type="submit" class="btn-saiba-mais btn-form">ENTRAR</button>
-                <div class="form-feedback" id="access-feedback" aria-live="polite"></div>
-            </form>
-        </div>
-    </section>
 
     <section class="dashboard-section reveal" id="admin-dashboard" hidden>
         <div class="dashboard-card">
@@ -78,6 +65,10 @@
                     <strong id="db-destinos">0</strong>
                     <span>Destinos cadastrados</span>
                 </div>
+                <div class="stat-box">
+                    <strong id="db-reservas">0</strong>
+                    <span>Reservas confirmadas</span>
+                </div>
             </div>
 
             <div class="admin-grid">
@@ -97,11 +88,22 @@
                         <textarea name="descricao" id="destino-descricao" rows="3" placeholder="Descrição do roteiro"
                             required></textarea>
                         <input type="text" name="link" id="destino-link" placeholder="Link da página de destino">
+                        <input type="number" name="vagas" id="destino-vagas" placeholder="Quantidade de vagas" min="0" required>
                         <button type="submit" class="btn-saiba-mais btn-form">SALVAR DESTINO</button>
                         <button type="button" class="btn-saiba-mais btn-form" id="cancel-edit">CANCELAR</button>
                         <div class="form-feedback" id="destino-feedback" aria-live="polite"></div>
                     </form>
                 </div>
+            </div>
+
+            <div class="admin-panel admin-panel-full">
+                <h4>Reservas confirmadas</h4>
+                <ul class="dashboard-list" id="reservas-list"><li>Nenhuma reserva confirmada.</li></ul>
+            </div>
+
+            <div class="admin-panel admin-panel-full">
+                <h4>Usuários cadastrados</h4>
+                <ul class="dashboard-list" id="users-list"><li>Carregando usuários...</li></ul>
             </div>
 
             <div class="admin-panel admin-panel-full">

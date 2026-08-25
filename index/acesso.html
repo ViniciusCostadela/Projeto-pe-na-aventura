@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso - Pé na Aventura</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="index.css">
+    <link rel="icon" href="../materiausadonoprojeto/logopenaaventura.png" type="image/png">
+</head>
+<body data-page="access">
+    <nav><div class="logo"><img src="../materiausadonoprojeto/logopenaaventura.png" alt="Logo Pé na Aventura"></div><div class="nome-empresa-centro"><h1>Pé na Aventura</h1></div><div class="links"><ul><li><a href="home.html">INÍCIO</a></li></ul></div></nav>
+    <main class="access-section"><div class="auth-grid">
+        <section class="access-card"><h3>Entrar</h3><p>Acesse sua conta para acompanhar as novidades.</p><form class="access-form" id="login-form"><label for="login-email">E-mail</label><input id="login-email" type="email" required autocomplete="email"><label for="login-password">Senha</label><input id="login-password" type="password" required autocomplete="current-password"><button class="btn-saiba-mais btn-form" type="submit">ENTRAR</button><div class="form-feedback" id="login-feedback" aria-live="polite"></div></form></section>
+        <section class="access-card"><h3>Crie sua conta</h3><p>Cadastre-se gratuitamente. Sua senha deve ter ao menos 8 caracteres.</p><form class="access-form" id="register-form"><label for="register-name">Nome</label><input id="register-name" type="text" required autocomplete="name"><label for="register-email">E-mail</label><input id="register-email" type="email" required autocomplete="email"><label for="register-password">Senha</label><input id="register-password" type="password" minlength="8" required autocomplete="new-password"><button class="btn-saiba-mais btn-form" type="submit">CADASTRAR</button><div class="form-feedback" id="register-feedback" aria-live="polite"></div></form></section>
+    </div></main>
+    <script src="auth.js"></script>
+</body>
+</html>
