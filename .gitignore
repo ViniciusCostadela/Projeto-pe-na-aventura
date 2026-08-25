@@ -1,4 +1,5 @@
-data/users.json
-data/destinations.json
-data/reservations.json
 data/pena-aventura.db*
+.env
+.env.*
+!.env.example
+npm-debug.log*

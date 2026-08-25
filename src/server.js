@@ -32,5 +32,9 @@ app.use(express.static(projectRoot, {
 app.use(notFound);
 app.use(errorHandler);
 
-seedAdministrator();
-app.listen(process.env.PORT || 3000, () => console.log('Site rodando em http://localhost:3000'));
+if (require.main === module) {
+    seedAdministrator();
+    app.listen(process.env.PORT || 3000, () => console.log(`Site rodando em http://localhost:${process.env.PORT || 3000}`));
+}
+
+module.exports = app;

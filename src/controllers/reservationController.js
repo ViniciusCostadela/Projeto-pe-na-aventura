@@ -14,13 +14,13 @@ function createReservation(request, response) {
     const phone = String(request.body.phone || '').trim();
     const destinationId = String(request.body.destinationId || '');
     if (fullName.length < 3 || fullName.length > 100 || phone.length > 30 || phone.replace(/\D/g, '').length < 10 || !destinationId || destinationId.length > 100) return response.status(400).json({ error: 'Informe nome completo, telefone válido e um destino.' });
-    if (database.prepare('SELECT 1 FROM reservations WHERE user_id = ? AND destination_id = ? LIMIT 1').get(request.user.id, destinationId)) return response.status(409).json({ error: 'Você já possui uma reserva para este destino.' });
     const destination = database.prepare('SELECT id, title, vacancies FROM destinations WHERE id = ?').get(destinationId);
     if (!destination) return response.status(404).json({ error: 'Este destino não está mais disponível.' });
     if (destination.vacancies < 1) return response.status(409).json({ error: 'Não há mais vagas. Tente novamente assim que surgirem novas vagas.' });
     const reservation = { id: crypto.randomUUID(), userId: request.user.id, fullName, email: request.user.email, phone, destinationId: destination.id, destinationTitle: destination.title, createdAt: new Date().toISOString() };
     database.exec('BEGIN IMMEDIATE');
     try {
+        if (database.prepare('SELECT 1 FROM reservations WHERE user_id = ? AND destination_id = ? LIMIT 1').get(request.user.id, destinationId)) { database.exec('ROLLBACK'); return response.status(409).json({ error: 'Você já possui uma reserva para este destino.' }); }
         const result = database.prepare('UPDATE destinations SET vacancies = vacancies - 1 WHERE id = ? AND vacancies > 0').run(destinationId);
         if (!result.changes) { database.exec('ROLLBACK'); return response.status(409).json({ error: 'Não há mais vagas. Tente novamente assim que surgirem novas vagas.' }); }
         database.prepare('INSERT INTO reservations (id, user_id, full_name, email, phone, destination_id, destination_title, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(reservation.id, reservation.userId, reservation.fullName, reservation.email, reservation.phone, reservation.destinationId, reservation.destinationTitle, reservation.createdAt);
@@ -30,11 +30,12 @@ function createReservation(request, response) {
 }
 
 function cancelReservation(reservationId, response) {
-    const reservation = database.prepare('SELECT id, destination_id AS destinationId FROM reservations WHERE id = ?').get(reservationId);
-    if (!reservation) return response.status(404).json({ error: 'Reserva não encontrada.' });
     database.exec('BEGIN IMMEDIATE');
     try {
-        database.prepare('DELETE FROM reservations WHERE id = ?').run(reservation.id);
+        const reservation = database.prepare('SELECT id, destination_id AS destinationId FROM reservations WHERE id = ?').get(reservationId);
+        if (!reservation) { database.exec('ROLLBACK'); return response.status(404).json({ error: 'Reserva não encontrada.' }); }
+        const result = database.prepare('DELETE FROM reservations WHERE id = ?').run(reservation.id);
+        if (!result.changes) { database.exec('ROLLBACK'); return response.status(404).json({ error: 'Reserva não encontrada.' }); }
         database.prepare('UPDATE destinations SET vacancies = vacancies + 1 WHERE id = ?').run(reservation.destinationId);
         database.exec('COMMIT');
     } catch (error) { database.exec('ROLLBACK'); throw error; }

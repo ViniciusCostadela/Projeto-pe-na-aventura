@@ -36,3 +36,23 @@ npm start
 ```
 
 Abra `http://localhost:3000`. O banco SQLite é criado automaticamente em `data/pena-aventura.db`. Não publique esse arquivo nem as variáveis de ambiente. Em produção, use HTTPS e defina `NODE_ENV=production`.
+
+## Arquitetura
+
+- `index/`: acesso, área do cliente, painel administrativo e scripts de interface.
+- `equipe/`, `historia/`, `proximodestino/` e `saibamais*/`: páginas públicas organizadas por domínio, preservando os links atuais.
+- `src/routes/`: endpoints da API.
+- `src/controllers/`: regras de entrada e operações dos recursos.
+- `src/services/`: autenticação, sessões e serviços compartilhados.
+- `src/middlewares/`: segurança, autorização, rate limit e erros.
+- `data/`: banco SQLite local, ignorado pelo Git.
+- `test/`: testes de fumaça da aplicação.
+
+O frontend usa exclusivamente a API Express. O fluxo é: formulário -> endpoint -> controller -> SQLite -> resposta JSON -> atualização da tela.
+
+Comandos disponíveis:
+
+```powershell
+npm start
+npm test
+```

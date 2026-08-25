@@ -6,9 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const revealElements = document.querySelectorAll('.reveal');
     const contatoForm = document.getElementById('contato-form');
     const feedback = document.getElementById('form-feedback');
-    const dbStatus = document.getElementById('db-status');
     const dbTotal = document.getElementById('db-total');
-    const dbUltima = document.getElementById('db-ultima');
     const dbList = document.getElementById('db-list');
     const dbDestinos = document.getElementById('db-destinos');
     const dbReservas = document.getElementById('db-reservas');
@@ -17,10 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const destinoFeedback = document.getElementById('destino-feedback');
     const destinosList = document.getElementById('destinos-list');
     const exportBtn = document.getElementById('exportar-btn');
-    const accessForm = document.getElementById('access-form');
-    const accessFeedback = document.getElementById('access-feedback');
     const adminDashboard = document.getElementById('admin-dashboard');
-    const adminLoginSection = document.getElementById('admin-login-section');
     const adminUserLabel = document.getElementById('admin-user-label');
     const logoutBtn = document.getElementById('logout-btn');
     const cancelEditBtn = document.getElementById('cancel-edit');
@@ -32,10 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const destinoVagasInput = document.getElementById('destino-vagas');
     const usersList = document.getElementById('users-list');
     const isAdminPage = document.body.getAttribute('data-page') === 'admin';
-    const DB_NAME = 'peNaAventuraDB';
-    const STORE_CONTACTS = 'contatos';
-    const STORE_DESTINOS = 'destinos';
-
     const formatDate = (value) => {
         const date = new Date(value);
         return date.toLocaleString('pt-BR', {
@@ -47,133 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const openDatabase = () => {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(DB_NAME, 2);
-
-            request.onupgradeneeded = () => {
-                const db = request.result;
-                if (!db.objectStoreNames.contains(STORE_CONTACTS)) {
-                    const contactsStore = db.createObjectStore(STORE_CONTACTS, { keyPath: 'id', autoIncrement: true });
-                    contactsStore.createIndex('createdAt', 'createdAt', { unique: false });
-                }
-
-                if (!db.objectStoreNames.contains(STORE_DESTINOS)) {
-                    const destinosStore = db.createObjectStore(STORE_DESTINOS, { keyPath: 'id', autoIncrement: true });
-                    destinosStore.createIndex('titulo', 'titulo', { unique: false });
-                }
-            };
-
-            request.onsuccess = () => resolve(request.result);
-            request.onerror = () => reject(request.error);
-        });
-    };
-
-    const saveToDatabase = (storeName, data) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const db = await openDatabase();
-                const transaction = db.transaction([storeName], 'readwrite');
-                const store = transaction.objectStore(storeName);
-                const record = {
-                    ...data,
-                    createdAt: new Date().toISOString()
-                };
-                const addRequest = store.add(record);
-
-                addRequest.onsuccess = () => resolve();
-                addRequest.onerror = () => reject(addRequest.error);
-                transaction.oncomplete = () => db.close();
-                transaction.onerror = () => reject(transaction.error);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    };
-
-    const updateDestino = (id, data) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const db = await openDatabase();
-                const transaction = db.transaction([STORE_DESTINOS], 'readwrite');
-                const store = transaction.objectStore(STORE_DESTINOS);
-                const getRequest = store.get(Number(id));
-
-                getRequest.onsuccess = () => {
-                    const existing = getRequest.result || {};
-                    const updated = {
-                        ...existing,
-                        ...data,
-                        id: Number(id),
-                        createdAt: existing.createdAt || new Date().toISOString()
-                    };
-                    const putRequest = store.put(updated);
-                    putRequest.onsuccess = () => resolve();
-                    putRequest.onerror = () => reject(putRequest.error);
-                };
-
-                getRequest.onerror = () => reject(getRequest.error);
-                transaction.oncomplete = () => db.close();
-                transaction.onerror = () => reject(transaction.error);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    };
-
-    const deleteDestino = (id) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const db = await openDatabase();
-                const transaction = db.transaction([STORE_DESTINOS], 'readwrite');
-                const store = transaction.objectStore(STORE_DESTINOS);
-                const deleteRequest = store.delete(Number(id));
-
-                deleteRequest.onsuccess = () => resolve();
-                deleteRequest.onerror = () => reject(deleteRequest.error);
-                transaction.oncomplete = () => db.close();
-                transaction.onerror = () => reject(transaction.error);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    };
-
-    const loadFromDatabase = (storeName) => {
-        return new Promise(async (resolve) => {
-            try {
-                const db = await openDatabase();
-                const transaction = db.transaction([storeName], 'readonly');
-                const store = transaction.objectStore(storeName);
-                const getAllRequest = store.getAll();
-
-                getAllRequest.onsuccess = () => {
-                    const items = getAllRequest.result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                    db.close();
-                    resolve(items);
-                };
-
-                getAllRequest.onerror = () => {
-                    db.close();
-                    resolve([]);
-                };
-            } catch (error) {
-                resolve([]);
-            }
-        });
-    };
-
     const renderDashboard = (items) => {
         if (dbTotal) {
             dbTotal.textContent = items.length;
-        }
-
-        if (dbUltima) {
-            dbUltima.textContent = items.length ? formatDate(items[0].createdAt) : '—';
-        }
-
-        if (dbStatus) {
-            dbStatus.textContent = items.length ? 'Banco ativo' : 'Aguardando dados';
         }
 
         if (dbList) {
@@ -219,9 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (adminDashboard) {
             adminDashboard.hidden = !authorized;
         }
-        if (adminLoginSection) {
-            adminLoginSection.hidden = authorized;
-        }
     };
 
     const clearDestinoForm = () => {
@@ -233,20 +97,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (destinoVagasInput) destinoVagasInput.value = '';
     };
 
-    const adminRequest = async (url, options = {}) => {
+    const apiRequest = async (url, options = {}) => {
         const response = await fetch(url, options);
         const result = await response.json().catch(() => ({}));
         if (!response.ok) throw new Error(result.error || 'Não foi possível concluir a operação.');
         return result;
     };
 
-    const getServerDestinations = async () => (await adminRequest('/api/destinations')).destinations || [];
-    const getServerContacts = async () => (await adminRequest('/api/admin/contacts')).contacts || [];
+    const getServerDestinations = async () => (await apiRequest('/api/destinations')).destinations || [];
+    const getServerContacts = async () => (await apiRequest('/api/admin/contacts')).contacts || [];
 
     const loadReservations = async () => {
         if (!reservasList) return;
         try {
-            const result = await adminRequest('/api/admin/reservations');
+            const result = await apiRequest('/api/admin/reservations');
             if (dbReservas) dbReservas.textContent = result.reservations.length;
             reservasList.innerHTML = result.reservations.map((reservation) => `<li><strong>${escapeHtml(reservation.destinationTitle)}</strong><br>${escapeHtml(reservation.fullName)} • ${escapeHtml(reservation.email)}<br>${escapeHtml(reservation.phone)} • ${escapeHtml(formatDate(reservation.createdAt))}<br><button data-reservation-id="${escapeHtml(reservation.id)}" data-action="delete-reservation">CANCELAR RESERVA</button></li>`).join('') || '<li>Nenhuma reserva confirmada.</li>';
         } catch (error) {
@@ -313,42 +177,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const payload = Object.fromEntries(formData.entries());
 
             try {
-                await adminRequest('/api/contacts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: payload.nome, email: payload.email, phone: payload.telefone, message: payload.mensagem }) });
+                await apiRequest('/api/contacts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: payload.nome, email: payload.email, phone: payload.telefone, message: payload.mensagem }) });
                 feedback.textContent = 'Mensagem enviada e salva com sucesso!';
                 contatoForm.reset();
             } catch (error) {
                 feedback.textContent = 'Não foi possível salvar a mensagem no momento.';
                 console.error(error);
-            }
-        });
-    }
-
-    if (accessForm && accessFeedback && isAdminPage) {
-        accessForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const user = document.getElementById('admin-user').value;
-            const password = document.getElementById('admin-password').value;
-
-            try {
-                const response = await fetch('/api/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email: user, password })
-                });
-                const result = await response.json().catch(() => ({}));
-                if (!response.ok) throw new Error(result.error || 'Não foi possível entrar.');
-                if (result.user.role !== 'admin') {
-                    await fetch('/api/auth/logout', { method: 'POST' });
-                    throw new Error('Esta conta não possui permissão de administrador.');
-                }
-                toggleAdminAccess(true);
-                if (adminUserLabel) adminUserLabel.textContent = `Logado como ${result.user.name}`;
-                accessFeedback.textContent = 'Acesso liberado.';
-                await loadDashboardData();
-                await loadUsers();
-                await loadReservations();
-            } catch (error) {
-                accessFeedback.textContent = error.message;
             }
         });
     }
@@ -361,9 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 if (payload.id) {
-                    await adminRequest(`/api/admin/destinations/${payload.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: payload.titulo, location: payload.local, description: payload.descricao, link: payload.link, vacancies: payload.vagas }) });
+                    await apiRequest(`/api/admin/destinations/${payload.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: payload.titulo, location: payload.local, description: payload.descricao, link: payload.link, vacancies: payload.vagas }) });
                 } else {
-                    await adminRequest('/api/admin/destinations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: payload.titulo, location: payload.local, description: payload.descricao, link: payload.link, vacancies: payload.vagas }) });
+                    await apiRequest('/api/admin/destinations', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: payload.titulo, location: payload.local, description: payload.descricao, link: payload.link, vacancies: payload.vagas }) });
                 }
 
                 destinoFeedback.textContent = 'Destino salvo com sucesso!';
@@ -385,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const action = button.getAttribute('data-action');
 
             if (action === 'delete') {
-                await adminRequest(`/api/admin/destinations/${id}`, { method: 'DELETE' });
+                await apiRequest(`/api/admin/destinations/${id}`, { method: 'DELETE' });
                 await loadDashboardData();
             }
 
@@ -413,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = event.target.closest('[data-action="delete-user"]');
             if (!button || !confirm('Excluir este cadastro de cliente? Esta ação não pode ser desfeita.')) return;
             try {
-                await adminRequest(`/api/admin/users/${button.dataset.userId}`, { method: 'DELETE' });
+                await apiRequest(`/api/admin/users/${button.dataset.userId}`, { method: 'DELETE' });
                 await loadUsers();
             } catch (error) {
                 alert(error.message);
@@ -426,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = event.target.closest('[data-action="delete-contact"]');
             if (!button || !confirm('Excluir este contato?')) return;
             try {
-                await adminRequest(`/api/admin/contacts/${button.dataset.contactId}`, { method: 'DELETE' });
+                await apiRequest(`/api/admin/contacts/${button.dataset.contactId}`, { method: 'DELETE' });
                 await loadDashboardData();
             } catch (error) { alert(error.message); }
         });
@@ -437,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = event.target.closest('[data-action="delete-reservation"]');
             if (!button || !confirm('Cancelar esta reserva e devolver a vaga?')) return;
             try {
-                await adminRequest(`/api/admin/reservations/${button.dataset.reservationId}`, { method: 'DELETE' });
+                await apiRequest(`/api/admin/reservations/${button.dataset.reservationId}`, { method: 'DELETE' });
                 await loadDashboardData();
                 await loadReservations();
             } catch (error) { alert(error.message); }
@@ -479,24 +313,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.replace('acesso.html');
             }
         })();
-    }
-
-    if (contatoForm && feedback && !isAdminPage) {
-        contatoForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const formData = new FormData(contatoForm);
-            const payload = Object.fromEntries(formData.entries());
-
-            try {
-                await adminRequest('/api/contacts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: payload.nome, email: payload.email, phone: payload.telefone, message: payload.mensagem }) });
-                feedback.textContent = 'Mensagem enviada e salva com sucesso!';
-                contatoForm.reset();
-            } catch (error) {
-                feedback.textContent = 'Não foi possível salvar a mensagem no momento.';
-                console.error(error);
-            }
-        });
     }
 
     if ('IntersectionObserver' in window) {
